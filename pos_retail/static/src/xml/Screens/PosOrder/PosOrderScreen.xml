@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="PosOrderScreen" owl="1">
+        <div class="ticket-screen screen" t-on-activate-edit-mode="activateEditMode">
+            <div class="screen-content">
+                <div class="controls">
+                    <div class="buttons">
+                        <button class="highlight" t-on-click="back">
+                            <t t-if="!env.isMobile">Back</t>
+                            <t t-else="">
+                                <i class="fa fa-undo"></i>
+                            </t>
+                        </button>
+                        <button class="highlight" t-on-click="clearSearch">
+                            <t t-if="!env.isMobile">Clear Search</t>
+                            <t t-else="">
+                                <i class="fa fa-refresh "></i>
+                            </t>
+                        </button>
+                        <span class="alert_line">
+                            <t t-if="props.selectedClient">
+                                Orders of Customer :<t t-esc="props.selectedClient.display_name"/>
+                            </t>
+                            <t t-else="">
+                                All Orders
+                            </t>
+                        </span>
+                    </div>
+                    <SearchBar t-if="!state.detailIsShown" config="searchBarConfig" placeholder="'Search Orders...'" />
+                </div>
+                <div t-if="state.detailIsShown" class="client-details-contents subwindow-container-fix">
+                    <PosOrderDetail order="order" t-props="state.editModeProps"/>
+                </div>
+                <div class="orders">
+                    <div class="header-row">
+                        <div t-if="!env.isMobile" class="col start">Customer</div>
+<!--                        <div t-if="!env.isMobile" class="col start">Session</div>-->
+                        <div t-if="!env.isMobile" class="col start">Date</div>
+                        <div class="col start">Ref</div>
+                        <div class="col start">Name</div>
+<!--                        <div class="col start">Barcode</div>-->
+<!--                        <div t-if="!env.isMobile" class="col start">Sale Person</div>-->
+                        <div class="col start">Total</div>
+                        <div t-if="!env.isMobile" class="col start">Paid</div>
+                        <div t-if="!env.isMobile" class="col start">Tax</div>
+                        <div t-if="!env.isMobile" class="col start">Debit</div>
+                        <div class="col start">State</div>
+<!--                        <div t-if="!env.isMobile" class="col start">Is Returned</div>-->
+                    </div>
+                    <t t-foreach="getOrders" t-as="order"
+                       t-key="order.id">
+                        <PosOrderRow order="order"
+                                    selectedOrder="state.selectedOrder"
+                                    detailIsShown="state.detailIsShown"
+                                    t-on-click-order="clickOrder" /> <!-- matching to (1) of PosOrderRow-->
+                    </t>
+                </div>
+            </div>
+        </div>
+    </t>
+
+</templates>

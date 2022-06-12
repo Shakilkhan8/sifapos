@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="ButtonGoPosOrderScreen" owl="1">
+        <div class="control-button">
+            <span>POS Orders Screen</span>
+            <span class="notification"><t t-esc="getCount"/></span>
+        </div>
+    </t>
+
+</templates>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="ProductScreen" t-inherit="point_of_sale.ProductScreen" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[hasclass('control-buttons')]" position="replace">
+            <div class="control-buttons" t-if="(env.isMobile and !env.pos.on_off_control_buttons)" t-att-class="{oe_hidden: env.session.restaurant_order}">
+                <t t-foreach="controlButtons" t-as="cb" t-key="cb.name">
+                    <t t-component="cb.component" t-key="cb.name" />
+                </t>
+            </div>
+        </xpath>
+        <xpath expr="//div[hasclass('leftpane')]" position="after">
+            <div class="control-buttons" t-if="(!env.isMobile and !env.pos.on_off_control_buttons)" t-att-class="{oe_hidden: env.session.restaurant_order}">
+                <t t-foreach="controlButtons" t-as="cb" t-key="cb.name">
+                    <t t-component="cb.component" t-key="cb.name" />
+                </t>
+            </div>
+        </xpath>
+        <xpath expr="//ProductsWidget" position="after">
+            <div class="placeholder-Base"/>
+        </xpath>
+    </t>
+
+</templates>

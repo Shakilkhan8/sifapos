@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="OrderSummaryExtend" owl="1">
+        <div class="summary clearfix">
+            <div class="note_element" t-if="order.name">
+                Ref:
+                <span>
+                    <t t-esc="order.name"/>
+                </span>
+            </div>
+            <div class="note_element" t-if="order.created_time">
+                CheckIn Time:
+                <span>
+                    <t t-esc="order.created_time"/>
+                </span>
+            </div>
+            <t t-if="order.origin">
+                <div class="note_element">
+                    Origin:
+                    <span>
+                        <t t-esc="order.origin"/>
+                    </span>
+                </div>
+            </t>
+            <t t-if="order.date_order">
+                <div class="note_element">
+                    Date Order:
+                    <span>
+                        <t t-esc="order.date_order"/>
+                    </span>
+                </div>
+            </t>
+            <div class="note_element" t-if="order.delivery_address">
+                Shipping Address:
+                <span class='value'>
+                    <t t-esc="order.delivery_address"/>
+                </span>
+            </div>
+            <div class="note_element" t-if="order.delivery_date">
+                Shipping Date:
+                <span class='value'>
+                    <t t-esc="order.delivery_date"/>
+                </span>
+            </div>
+            <div class="note_element" t-if="order.delivery_phone">
+                Shipping Phone:
+                <span class='value'>
+                    <t t-esc="order.delivery_phone"/>
+                </span>
+            </div>
+            <div class="note_element" t-if="order.guest">
+                Guest:
+                <span class="order-note">
+                    <t t-esc="order.guest"/>
+                </span>
+
+            </div>
+            <div class="note_element" t-if="order.guest_number">
+                Guest Number:
+                <span class="order-note">
+                    <t t-esc="order.guest_number"/>
+                </span>
+
+            </div>
+            <div class="note_element" t-if="order.note">
+                Notes:
+                <span class="order-note">
+                    <t t-esc="order.note"/>
+                </span>
+
+            </div>
+            <div class="signature_element" t-if="order.signature">
+                Signature:
+                <img class="product-img signature"
+                             t-att-src="order.get_signature() || ''"
+                             style="max-height:400px;max-width:400px"/>
+            </div>
+            <t t-if="promotions">
+                <div class="note_element">
+                    Promotions Active Bellow:
+                </div>
+                <ul class="info-list">
+                    <t t-set="number" t-value="1"/>
+                    <t t-foreach="promotions" t-as="promotion" t-key="promotion.id">
+                        <div class="info promotion_active">
+                            <span class="line_number"><t t-esc="number"/>. </span>
+                            <t t-esc="promotion['name']"/>
+                            <t t-set="number" t-value="number + 1"/>
+                        </div>
+                    </t>
+                </ul>
+            </t>
+        </div>
+    </t>
+
+</templates>

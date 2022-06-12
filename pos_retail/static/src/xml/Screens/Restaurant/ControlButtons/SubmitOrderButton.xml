@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="SubmitOrderButton" t-inherit="pos_restaurant.SubmitOrderButton" t-inherit-mode="extension" owl="1">
+        <xpath expr="//span[hasclass('control-button')]" position="inside">
+            <span class="notification"><t t-esc="countItemsNeedPrint"/></span>
+        </xpath>
+    </t>
+
+</templates>

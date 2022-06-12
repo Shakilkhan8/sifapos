@@ -1,0 +1,745 @@
+<odoo>
+    <data>
+
+        <menuitem id="point_of_sale.menu_point_rep" groups="group_pos_report"/>
+
+        <menuitem id="point_of_sale.menu_point_rep"
+                  name="Reporting"
+                  parent="point_of_sale.menu_point_root"
+                  sequence="90"
+                  groups="group_pos_report,point_of_sale.group_pos_manager"/>
+
+        <record id="view_pos_config_kanban" model="ir.ui.view">
+            <field name="name">pos.config.kanban.view</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_config_kanban"/>
+            <field name="model">pos.config</field>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='open_session_cb']" position="after">
+                    <button groups="point_of_sale.group_pos_manager" class="btn btn-primary"
+                            name="remote_sessions"
+                            type="object">Remote Sessions
+                    </button>
+                    <button groups="point_of_sale.group_pos_manager" class="btn btn-primary"
+                            name="validate_and_post_entries_session" style="margin-top: 3px; background: red"
+                            attrs="{'invisible': [('sessions_opened', '=', False)]}"
+                            type="object">Close all
+                        Sessions Opened
+                    </button>
+                </xpath>
+                <xpath expr="//field[@name='current_session_id']" position="before">
+                    <field name="pos_branch_id" groups="pos_retail.group_branch_manager"/>
+                    <field name="sync_multi_session_with"/>
+                    <field name="user_id"/>
+                    <field name="sessions_opened" invisible="1"/>
+                </xpath>
+                <xpath expr="//div[hasclass('o_kanban_card_content')]" position="inside">
+                    <div class="row">
+                        <div class="col-6 o_kanban_primary_left">
+                            <div class="col-12" t-if="record.pos_branch_id">
+                                <span>Branch:</span>
+                                <span>
+                                    <t t-esc="record.pos_branch_id.value"/>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-6 o_kanban_primary_right">
+                            <div class="col-12" t-if="record.sync_multi_session_with">
+                                <span>Sync with :</span>
+                                <span>
+                                    <t t-esc="record.sync_multi_session_with.value"/>
+                                </span>
+                            </div>
+                            <div class="col-12" t-if="record.user_id">
+                                <span>Assigned User :</span>
+                                <span>
+                                    <t t-esc="record.user_id.value"/>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_pos_config_search" model="ir.ui.view">
+            <field name="name">pos.config.search.view</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_config_search"/>
+            <field name="model">pos.config</field>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='picking_type_id']" position="after">
+                    <field name="pos_branch_id" groups="pos_retail.group_branch_manager"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="pos_config_retail">
+            <field name="name">pos.config.retail</field>
+            <field name="model">pos.config</field>
+            <field name="inherit_id" ref="point_of_sale.pos_config_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('pos_iot_config')]" position="inside">
+                    <div class="row printer_network">
+                        <label string="Printer Network" for="printer_id" class="col-lg-4 o_light_label"/>
+                        <field name="printer_id"/>
+                    </div>
+                    <div class="row printer_network_ip">
+                        <label string="Printer Network Address" for="proxy_ip" class="col-lg-4 o_light_label"/>
+                        <field name="proxy_ip"/>
+                    </div>
+                </xpath>
+                <xpath expr="//sheet" position="before">
+                    <header>
+                        <button name="set_pricelists_to_pos_sessions_online_without_reload"
+                                icon="fa-arrow-right"
+                                type="object"
+                                string="Reload Pricelist Sessions Online"
+                                class="btn-primary"/>
+                        <button groups="point_of_sale.group_pos_manager"
+                                class="btn btn-primary"
+                                name="remote_sessions"
+                                type="object"
+                                string="Remote sessions"/>
+                        <button groups="point_of_sale.group_pos_manager"
+                                class="btn btn-primary"
+                                name="validate_and_post_entries_session"
+                                type="object"
+                                string="Close all Sessions Opened"/>
+                    </header>
+                </xpath>
+                <xpath expr="//field[@name='picking_type_id']" position="attributes">
+                    <attribute name="required">1</attribute>
+                </xpath>
+                <xpath expr="//div[@id='title']" position="before">
+                    <field name="logo" widget="image" class="oe_avatar"/>
+                </xpath>
+                <xpath expr="//sheet" position="inside">
+                    <notebook>
+                        <page string="Keyboard Events" groups="point_of_sale.group_pos_manager">
+                            <group>
+                                <div>
+                                    <td>
+                                        <span style="color:red; font-weight: 900">[1] Product screen</span> <br/>
+                                            - [*] Change mode  <br/>
+                                                    <span>  </span>- [ ] Set Disc (d) <br/>
+                                                    <span>  </span>- [ ] Set Quantioty (q) <br/>
+                                                    <span>  </span>- [ ] Set Price (p) <br/>
+                                                    <span>  </span>- [ ] Set plus/minus (+/-) <br/>
+                                            - [*] Go category home (h) <br/>
+                                            - [*] Focus mouse to search box (s) <br/>
+                                            - [*] Blur (leave mouse) search box (esc) <br/>
+                                            - [*] Go Payment (space) <br/>
+                                            - [*] Set customer (c) <br/>
+                                            - [*] Change qty, disc, price : 0 to 9 and . <br/>
+                                            - [*] If search have result only one product, press (enter) for auto add to cart
+                                            - [*] Go Orders Screen (o) <br/>
+                                             <br/>
+                                    </td>
+                                </div>
+                            </group>
+                            <group>
+                                <td>
+                                    <span style="color:red; font-weight: 900">[2] customer screen</span> <br/>
+                                        - [*] Back (Discard) (b) <br/>
+                                        - [*] Set Customer (enter) <br/>
+                                        - [*] Edit Customer (e) <br/>
+                                        - [*] Save button (enter) <br/>
+                                        - [*] Focus mouse to search box (s) <br/>
+                                        - [*] Quit Search (esc) <br/>
+                                 <br/>
+                                </td>
+                                <td>
+                                    <span style="color:red; font-weight: 900">[********] Guide tip</span> <br/>
+                                        - [*] Press (s) to product search box, if have only one product result, press Enter for add product to Cart <br/>
+                                        - [*] Press (c) for go to Customer Screen, search Customer, if result only one, Press Enter for set Client and back to Product Screen <br/>
+                                </td>
+                            </group>
+                            <group>
+                                 <div>
+                                    <td>
+                                        <span style="color:red; font-weight: 900">[3] Payment Screen</span> <br/>
+                                            - [*] Back Screen (b) <br/>
+                                            - [*] Validate Order (enter) <br/>
+                                    </td>
+                                    <td>
+                                        <span style="color:red; font-weight: 900">[4] Receipt Screen</span> <br/>
+                                            - [*] Print Receipt (p) <br/>
+                                            - [*] Next order (enter) <br/>
+                                            - [*] Download Invoice (d) <br/>
+                                    </td>
+                                </div>
+                            </group>
+                            <group>
+                                <div>
+                                    <td>
+                                        <span style="color:red; font-weight: 900">[5] Orders Screen</span> <br/>
+                                            - [*] Back Screen (b) <br/>
+                                            - [*] New Order (n) <br/>
+                                            - [*] Delete Current Order (del) <br/>
+                                            - [*] Focus Mouse to searchbox (s) <br/>
+                                            - [*] Leave seachbox (esc) <br/>
+                                            - [*] Open Filter (f) <br/>
+                                    </td>
+                                </div>
+                            </group>
+                        </page>
+                        <page string="Multi Branch" groups="point_of_sale.group_pos_manager">
+                            <group>
+                                <group>
+                                    <field name="pos_branch_id"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Sync Sessions and Restaurant" groups="point_of_sale.group_pos_manager">
+                            <group>
+                                <group id="sync_multi_session">
+                                    <field name="sync_multi_session"/>
+                                    <field name="id" readonly="1" invisible="1"/>
+                                    <field name="user_id"
+                                           attrs="{'invisible': [('sync_multi_session', '=', False)], 'required' : [('sync_multi_session', '=', True)]}"/>
+                                    <field name="sync_to_pos_config_ids"
+                                           widget="many2many_tags"
+                                           domain="[('id', '!=', id)]"
+                                           attrs="{'invisible': [('sync_multi_session', '=', False)], 'required' : [('sync_multi_session', '=', True)]}"/>
+                                    <field name="sync_multi_session_offline"
+                                           attrs="{'invisible': [('sync_multi_session', '=', False)], 'required' : [('sync_multi_session', '=', True)]}"/>
+                                    <field name="sync_multi_session_offline_iot_ids"
+                                           attrs="{'invisible': ['|', ('sync_multi_session_offline', '=', False), ('sync_multi_session', '=', False)], 'required' : [('sync_multi_session_offline', '=', True),  ('sync_multi_session', '=', True)]}"
+                                           widget="many2many_tags"
+                                    />
+                                </group>
+                                <group attrs="{'invisible': [('restaurant_order', '=', True)]}">
+                                    <field name="sync_multi_session_manual_stop"
+                                           attrs="{'invisible': [('sync_multi_session', '=', False)]}"/>
+                                    <field name="sync_multi_session_alert_remove_order"
+                                           attrs="{'invisible': [('sync_multi_session', '=', False)]}"/>
+                                    <field name="display_person_add_line"
+                                           attrs="{'invisible': [('sync_multi_session', '=', False)]}"/>
+                                    <field name="sync_tracking_activities_user"
+                                           invisible="1"/>
+                                    <button name="remove_sync_between_session_logs"
+                                            invisible="1"
+                                            string="Remove Sync Between Session Logs"
+                                            attrs="{'invisible': [('sync_multi_session', '=', False)]}"
+                                            type="object"
+                                            confirm="We will remove all logs transactions of future Sync Between Sessions send to this POS Config. Are you really want to do it now ?"
+                                            groups="point_of_sale.group_pos_manager" class="btn-primary fa fa-trash"/>
+                                </group>
+                                <field name="restaurant_order" invisible="1"/>
+                                <field name="screen_type" invisible="1"/>
+                                <field name="qrcode_order_screen" invisible="1"/>
+                                <group string="Cashier/Waiter Screen Setting"
+                                       attrs="{'invisible': ['|', '|', ('sync_multi_session', '=', False), ('screen_type', '=', 'kitchen'), ('restaurant_order', '=', True)]}">
+                                    <field name="kitchen_screen"/>
+                                    <field name="auto_order"/>
+                                    <field name="sync_manual_button"/>
+                                    <field name="send_order_to_kitchen"/>
+                                    <field name="allow_lock_table"/>
+                                </group>
+                                <group string="Kitchen Screen Setting"
+                                       attrs="{'invisible': ['|', '|', ('sync_multi_session', '=', False), ('screen_type', '!=', 'kitchen'), ('restaurant_order', '=', True)]}">
+                                    <field name="allow_kitchen_cancel"/>
+                                    <field name="period_minutes_warning"/>
+                                    <field name="required_input_reason_cancel"
+                                           attrs="{'invisible': [('allow_kitchen_cancel', '!=', True)]}"/>
+                                    <field name="reason_cancel_reason_ids" widget="many2many_tags"
+                                           attrs="{'invisible': [('required_input_reason_cancel', '!=', True)], 'required': [('required_input_reason_cancel', '=', True)]}"/>
+                                    <field name="display_all_product"/>
+                                    <field name="product_categ_ids"
+                                           widget="many2many_tags"
+                                           attrs="{'invisible': [('display_all_product', '=', True)], 'required': [('display_all_product', '!=', True)] }"/>
+                                </group>
+                                <group string="Restaurant Setting"
+                                       attrs="{'invisible': ['|', ('screen_type', '=', 'kitchen'), ('restaurant_order', '=', True)]}">
+                                    <field name="allow_lock_table"/>
+                                    <field name="allow_split_table"/>
+                                    <field name="allow_merge_table"/>
+                                    <field name="required_set_guest"/>
+                                    <field name="product_generic_option"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Security and Discount" groups="point_of_sale.group_pos_manager">
+                            <group>
+                                <group string="Security Numpad">
+                                    <field name="allow_numpad"/>
+                                    <field name="allow_discount"/>
+                                    <field name="allow_qty"/>
+                                    <field name="allow_price"/>
+                                    <field name="allow_remove_line"/>
+                                    <field name="allow_minus"/>
+                                </group>
+                                <group string="Security Actions">
+                                    <field name="allow_add_product"/>
+                                    <field name="allow_customer"/>
+                                    <field name="allow_payment"/>
+                                    <field name="allow_add_order"/>
+                                    <field name="allow_remove_order"/>
+                                    <field name="allow_payment_zero"/>
+                                    <field name="allow_offline_mode"/>
+                                </group>
+                            </group>
+                            <group>
+                                <group string="Validation">
+                                    <field name="validate_return"/>
+                                    <field name="validate_payment"/>
+                                    <field name="validate_remove_order"/>
+                                    <field name="validate_new_order"/>
+                                    <field name="validate_quantity_change"/>
+                                    <field name="validate_price_change"/>
+                                    <field name="validate_discount_change"/>
+                                    <field name="validate_remove_line"/>
+                                    <field name="validate_change_minus"/>
+                                    <field name="validate_by_manager"/>
+                                </group>
+                            </group>
+                            <group string="Discount Setting">
+                                <group string="Discount Value">
+                                    <field name="discount_value"/>
+                                    <field name="discount_value_limit"
+                                           attrs="{'invisible': [('discount_value', '=', False)], 'required' : [('discount_value', '=', True)]}"/>
+                                </group>
+                                <group string="Discount Global">
+                                    <field name="discount"/>
+                                    <field name="discount_ids" widget="many2many_tags"
+                                           attrs="{'invisible': [('discount', '=', False)], 'required' : [('discount', '=', True)]}"/>
+                                </group>
+                                <group string="Discount Limited">
+                                    <field name="discount_limit"/>
+                                    <field name="discount_limit_amount"
+                                           attrs="{'invisible': [('discount_limit', '=', False)], 'required' : [('discount_limit', '=', True)]}"/>
+                                </group>
+                                <group string="Managers Validate"
+                                       attrs="{'invisible': [('validate_by_manager', '=', False), ('discount_unlock_by_manager', '=', False)]}">
+                                    <field name="discount_unlock_by_manager"
+                                           attrs="{'invisible': [('discount_limit', '=', False)], 'required' : [('discount_limit', '=', True)]}"
+                                    />
+                                    <field name="manager_ids" widget="many2many_tags"
+                                           nolabel="1"
+                                           attrs="{'required': ['|', ('validate_by_manager', '=', True), ('discount_unlock_by_manager', '=', True)]}"/>
+                                </group>
+                            </group>
+                            <group>
+                                <field name="start_session_oneclick"/>
+                            </group>
+                        </page>
+                        <page string="Promotions, Loyalties, Vouchers" groups="point_of_sale.group_pos_manager">
+                            <group>
+                                <group string="Loyalty Program">
+                                    <field name="pos_loyalty_id"/>
+                                    <field name="loyalty_combine_promotion"/>
+                                </group>
+                                <group string="Promotions Program">
+                                    <field name="promotion_manual_select"/>
+                                    <field name="promotion_auto_add"/>
+                                    <field name="promotion_ids" widget="many2many_tags" colspan="4"/>
+                                </group>
+                                <group string="Voucher Program">
+                                    <field name="print_voucher"/>
+                                    <field name="expired_days_voucher"
+                                           attrs="{'invisible': [('print_voucher', '=', False)], 'required' : [('print_voucher', '=', True)]}"
+                                    />
+                                    <field name="voucher_sequence_id"
+                                           attrs="{'invisible': [('print_voucher', '=', False)], 'required' : [('print_voucher', '=', True)]}"
+                                    />
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Manufacturing" groups="point_of_sale.group_pos_manager">
+                            <group>
+                                <field name="mrp"/>
+                                <field name="mrp_bom_auto_assign"
+                                       attrs="{'invisible': [('mrp', '=', False)]}"/>
+                                <field name="mrp_auto_confirm"
+                                       attrs="{'invisible': [('mrp', '=', False)]}"/>
+                                <field name="mrp_auto_assign"
+                                       attrs="{'invisible': [('mrp', '=', False)]}"/>
+                                <field name="mrp_auto_done"
+                                       attrs="{'invisible': [('mrp', '=', False)]}"/>
+                                <field name="mrp_produce_direct"
+                                       attrs="{'invisible': [('mrp', '=', False)]}"/>
+                            </group>
+                        </page>
+                        <page string="POS Orders" name="pos_orders" groups="point_of_sale.group_pos_manager">
+                            <group>
+                                <group string="Sellers">
+                                    <field name="add_sale_person"/>
+                                    <field name="force_seller"
+                                           attrs="{'invisible': [('add_sale_person', '=', False)]}"/>
+                                    <field name="default_seller_id"/>
+                                    <field name="seller_ids" widget="many2many_tags"
+                                           attrs="{'invisible': [('add_sale_person', '=', False)], 'required': [('add_sale_person', '=', True)]}"/>
+                                </group>
+                                <group>
+                                    <field name="backup_orders_automatic"/>
+                                    <field name="sale_with_package"/>
+                                </group>
+                            </group>
+                            <group>
+                                <group string="Assign Orders">
+                                    <field name="create_quotation"/>
+                                    <field name="assign_orders_to_config_ids"
+                                           widget="many2many_tags"
+                                           attrs="{'invisible': [('create_quotation', '=', False)], 'required': [('create_quotation', '=', True)]}"
+                                    />
+                                </group>
+                                <group string="Shipping Order">
+                                    <field name="shipping_order"/>
+                                </group>
+                                <group string="Order Screen Setting">
+                                    <field name="pos_orders_management"/>
+                                    <field name="load_orders_type"
+                                           attrs="{'invisible': [('pos_orders_management', '=', False)], 'required': [('pos_orders_management', '=', True)]}"
+                                    />
+                                    <field name="note_order"/>
+                                    <field name="signature_order"/>
+                                    <field name="set_guest"/>
+                                    <field name="set_guest_when_add_new_order"/>
+                                    <field name="allow_set_price_smaller_min_price"/>
+                                    <field name="add_customer_before_products_already_in_shopping_cart"/>
+                                    <field name="allow_cashier_select_pricelist"/>
+                                    <field name="fiscal_position_auto_detect"/>
+                                    <field name="update_tax"/>
+                                    <field name="update_tax_ids" widget="many2many_tags" options="{'no_create': True}"
+                                           domain="[('type_tax_use','=','sale')]"
+                                           attrs="{'invisible': [('update_tax', '=', False)], 'required': [('update_tax', '!=', False)]}"/>
+                                </group>
+                                <group string="Return Products or Orders">
+                                    <field name="return_products"/>
+                                    <field name="return_method_id"
+                                           attrs="{'invisible': [('return_products', '!=', True)]}"/>
+                                    <field name="return_viva_scan_barcode"
+                                           attrs="{'invisible': [('return_products', '!=', True)]}"/>
+                                    <field name="required_reason_return"
+                                           attrs="{'invisible': [('return_products', '!=', True)]}"/>
+                                    <field name="return_duplicate"/>
+                                    <field name="pos_order_period_return_days"
+                                           attrs="{'required': [('pos_orders_management', '=', True)]}"/>
+                                    <field name="display_return_days_receipt"/>
+                                </group>
+                                <group string="Order Lines Setting">
+                                    <field name="display_tax_orderline"/>
+                                    <field name="display_tax_receipt"/>
+                                    <field name="display_image_orderline"/>
+                                    <field name="display_margin"/>
+                                    <field name="display_amount_discount"/>
+                                </group>
+                                <group>
+                                    <field name="posbox_save_orders"/>
+                                    <field name="posbox_save_orders_iot_ids"
+                                           widget="many2many_tags"
+                                           attrs="{'required': [('posbox_save_orders', '=', True)], 'invisible': [('posbox_save_orders', '=', False)]}"/>
+                                    <field name="posbox_save_orders_server_ip"
+                                           attrs="{'required': [('posbox_save_orders', '=', True)], 'invisible': [('posbox_save_orders', '=', False)]}"/>
+                                    <field name="posbox_save_orders_server_port"
+                                           attrs="{'required': [('posbox_save_orders', '=', True)], 'invisible': [('posbox_save_orders', '=', False)]}"/>
+                                </group>
+                            </group>
+                            <group string="Use Camera Scan Barcode">
+                                <field name="barcode_scan_with_camera"/>
+                                <field name="barcode_scan_timeout"
+                                       attrs="{'invisible': [('barcode_scan_timeout', '=', False)]}"/>
+                            </group>
+                            <group>
+                                <field name="service_charge_ids" widget="many2many_tags"/>
+                                <field name="service_shipping_automatic"/>
+                                <field name="google_map_api_key"
+                                       password="True"
+                                       attrs="{'required': [('service_shipping_automatic', '=', True)]}"/>
+                            </group>
+                        </page>
+                        <page string="Invoice Setting" groups="point_of_sale.group_pos_manager">
+                            <group>
+                                <group>
+                                    <field name="management_invoice"/>
+                                    <field name="load_invoices_type"
+                                           attrs="{'invisible': [('management_invoice', '=', False)], 'required': [('management_invoice', '=', True)]}"/>
+                                    <field name="customer_default_id"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Sale (Quotation) Orders" groups="point_of_sale.group_pos_manager">
+                            <group>
+                                <group string="Management Sale (Quotations) Orders">
+                                    <field name="booking_orders"/>
+                                    <field name="load_booked_orders_type"
+                                           attrs="{'invisible': [('booking_orders', '=', False)], 'required': [('booking_orders', '=', True)]}"/>
+                                    <field name="booking_orders_alert"
+                                           attrs="{'invisible': [('booking_orders', '=', False)]}"/>
+                                    <field name="booking_orders_display_shipping_receipt"
+                                           attrs="{'invisible': [('booking_orders', '=', False)]}"/>
+                                    <field name="booking_allow_confirm_sale"
+                                           attrs="{'invisible': [('booking_orders', '=', False)]}"/>
+                                </group>
+                                <group string="Create Sale (Quotation) Orders">
+                                    <field name="sale_order"/>
+                                    <field name="sale_order_auto_confirm"
+                                           attrs="{'invisible': [('sale_order', '=', False)]}"/>
+                                    <field name="sale_order_auto_invoice"
+                                           attrs="{'invisible': [('sale_order', '=', False)]}"/>
+                                    <field name="sale_order_auto_delivery"
+                                           attrs="{'invisible': [('sale_order', '=', False)]}"/>
+                                    <field name="sale_order_required_signature"
+                                           attrs="{'invisible': [('sale_order', '=', False)]}"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Report Analytic" groups="point_of_sale.group_pos_manager">
+                            <group>
+                                <group string="Product Report">
+                                    <field name="report_product_summary"/>
+                                    <field name="report_product_summary_auto_check_product"/>
+                                    <field name="report_product_summary_auto_check_category"/>
+                                    <field name="report_product_summary_auto_check_location"/>
+                                    <field name="report_product_summary_auto_check_payment"/>
+                                </group>
+                                <group string="Order Report">
+                                    <field name="report_order_summary"/>
+                                    <field name="report_order_summary_auto_check_order"/>
+                                    <field name="report_order_summary_auto_check_category"/>
+                                    <field name="report_order_summary_auto_check_payment"/>
+                                    <field name="report_order_summary_default_state"/>
+                                </group>
+                                <group string="Payment Report">
+                                    <field name="report_payment_summary"/>
+                                </group>
+                                <group string="Z-Report">
+                                    <field name="report_sale_summary"/>
+                                    <field name="report_sale_summary_show_profit"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Speed Up" groups="point_of_sale.group_pos_manager">
+                            <group>
+                                <field name="big_datas_sync_backend"/>
+                                <field name="big_datas_turbo"/>
+                            </group>
+                            <group>
+                                <field name="last_save_cache"/>
+                                <button name="reinstall_database"
+                                        string="Install/Reinstall Database"
+                                        class="btn-danger"
+                                        type="object"
+                                        icon="fa-archive"
+                                        onclick="remove_pos_database()"
+                                >
+                                    <script>
+                                        function remove_pos_database() {
+                                        localStorage.clear();
+                                        var database_template = this.odoo.session_info.db;
+                                        for (var i = 0; i &lt; 100; i++) {
+                                        indexedDB.deleteDatabase(database_template + '_' + i);
+                                        console.log('removed db: ' + database_template + '_' + i);
+                                        }
+                                        }
+                                    </script>
+                                </button>
+                            </group>
+                        </page>
+                        <page string="Purchase Order" groups="point_of_sale.group_pos_manager">
+                            <group>
+                                <group string="Purchase Order">
+                                    <field name="create_purchase_order"/>
+                                    <field name="create_purchase_order_required_signature"/>
+                                    <field name="purchase_order_state"
+                                           attrs="{'invisible': [('create_purchase_order', '=', False)], 'required': [('create_purchase_order', '=', True)]}"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Warehouse" groups="point_of_sale.group_pos_manager">
+                            <group>
+                                <group string="Stock Locations">
+                                    <field name="point_of_sale_update_stock_quantities"/>
+                                    <field name="stock_location_id"/>
+                                    <field name="stock_location_dest_id"/>
+                                    <field name="display_onhand"/>
+                                    <field name="multi_location"/>
+                                    <field name="stock_location_ids"
+                                           attrs="{'invisible': [('multi_location', '=', False)], 'required': [('multi_location', '=', True)]}"
+                                           widget="many2many_tags"/>
+                                    <field name="update_stock_onhand"
+                                           attrs="{'invisible': [('multi_location', '=', False)]}"/>
+                                    <field name="internal_transfer"/>
+                                    <field name="allow_order_out_of_stock"/>
+                                    <field name="update_stock_onhand_realtime"
+                                           attrs="{'invisible': [('display_onhand', '=', False)]}"/>
+                                </group>
+                                <group string="Lot Serial/Number">
+                                    <field name="create_lots"/>
+                                    <field name="fullfill_lots"/>
+                                </group>
+                                <group string="Stock Operation Types">
+                                    <field name="multi_stock_operation_type"/>
+                                    <field name="multi_stock_operation_type_ids"
+                                           widget="many2many_tags"
+                                           attrs="{'invisible': [('multi_stock_operation_type', '=', False)], 'required': [('multi_stock_operation_type', '=', True)]}"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Products Screen" groups="point_of_sale.group_pos_manager">
+                            <group>
+                                <field name="create_category_direct"/>
+                                <field name="create_product_direct"/>
+                                <field name="translate_products_name"/>
+                                <field name="set_product_name_from_field"
+                                       attrs="{'invisible': [('translate_products_name', '!=', True)], 'required': [('translate_products_name', '=', True)]}"/>
+                                <field name="default_display_cart"/>
+                            </group>
+                            <group string="Limited Product Categories">
+                                <field name="limit_categories"/>
+                                <field name="iface_available_categ_ids"
+                                       widget="many2many_tags"
+                                       attrs="{'invisible': [('limit_categories', '=', False)]}"
+                                />
+                            </group>
+                            <group>
+                                <group>
+                                    <field name="product_category_ids" widget="many2many_tags"/>
+                                    <div class="text-muted">
+                                         If you set Product Categories, POS Categories will change to Product Categories
+                                    </div>
+                                    <field name="limited_products_display"/>
+                                    <field name="allow_select_variant"/>
+                                    <field name="product_view"/>
+                                    <field name="product_image_size"/>
+                                    <field name="product_operation"/>
+                                    <field name="default_product_sort_by"
+                                           required="1"/>
+                                </group>
+                                <group>
+                                    <field name="display_sale_price_within_tax"/>
+                                    <field name="display_cost_price"/>
+                                    <field name="display_product_ref"/>
+                                    <field name="hide_product_image"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Payment Screen" groups="point_of_sale.group_pos_manager">
+                            <group>
+                                <group>
+                                    <field name="send_invoice_email" invisible="1"/>
+                                    <field name="auto_invoice"/>
+                                    <field name="invoice_without_download"/>
+                                    <field name="payment_journal_ids" widget="many2many_tags"/>
+                                </group>
+                                <group>
+                                    <field name="analytic_account_id"/>
+                                    <field name="payment_reference"/>
+                                    <field name="quickly_payment_full"/>
+                                    <field name="paid_partial"/>
+                                </group>
+                                <group string="Rounding Amount Order">
+                                    <field name="rounding_automatic"/>
+                                    <field name="rounding_type"
+                                           attrs="{'invisible': [('rounding_automatic', '=', False)], 'required' : [('rounding_automatic', '=', True)]}"/>
+                                </group>
+                                <group>
+                                    <field name="wallet"/>
+                                    <field name="management_session"/>
+                                    <field name="cash_inout_reason_ids"
+                                           attrs="{'invisible': [('management_session', '=', False)], 'required': [('management_session', '!=', False)]}"
+                                           widget="many2many_tags"
+                                    />
+                                    <field name="payment_coin"/>
+                                    <field name="payment_coin_ids"
+                                           widget="many2many_tags"
+                                           attrs="{'invisible': [('payment_coin', '=', False)], 'required' : [('payment_coin', '=', True)]}"
+                                    />
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Receipt Screen" groups="point_of_sale.group_pos_manager">
+                            <group>
+                                <group string="Receipt Setting">
+                                    <field name="validate_order_without_receipt"/>
+                                    <field name="review_receipt_before_paid"/>
+                                    <field name="print_last_order"/>
+                                    <field name="duplicate_receipt"/>
+                                    <field name="duplicate_number"
+                                           attrs="{'invisible': [('duplicate_receipt', '=', False)], 'required': [('duplicate_receipt', '=', True)]}"
+                                    />
+                                </group>
+                                <group string="Display Setting">
+                                    <field name="display_sequence_number"/>
+                                    <field name="display_logo"/>
+                                    <field name="receipt_display_unit"/>
+                                    <field name="display_image_receipt"/>
+                                    <field name="receipt_customer_vat"/>
+                                    <field name="category_wise_receipt"/>
+                                    <field name="receipt_display_subtotal"/>
+                                    <field name="receipt_display_taxes"/>
+                                    <field name="receipt_header_style"/>
+                                    <field name="receipt_display_warehouse"/>
+                                </group>
+                                <group string="Extra field on Receipt">
+                                    <field name="display_product_second_name"/>
+                                    <field name="add_picking_field_to_receipt"/>
+                                    <field name="add_invoice_field_to_receipt"/>
+                                    <field name="add_order_fields_to_receipt" widget="many2many_tags"/>
+                                    <field name="add_picking_fields_to_receipt" widget="many2many_tags"/>
+                                    <field name="add_invoices_field_to_receipt" widget="many2many_tags"/>
+                                </group>
+                                <group string="Display Barcode">
+                                    <field name="barcode_receipt"/>
+                                </group>
+                                <group string="Download Report">
+                                    <field name="receipt_manual_download_invoice"/>
+                                    <field name="print_delivery_report"/>
+                                    <field name="print_order_report"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Clients Screen" groups="point_of_sale.group_pos_manager">
+                            <group>
+                                <group string="Check Duplicate">
+                                    <field name="check_duplicate_email"/>
+                                    <field name="check_duplicate_phone"/>
+                                </group>
+                                <group string="Security">
+                                    <field name="update_client"/>
+                                    <field name="add_client"/>
+                                </group>
+                                <group>
+                                    <field name="replace_partners_name"/>
+                                    <field name="set_partner_name_from_field"
+                                           attrs="{'invisible': [('replace_partners_name', '!=', True)], 'required': ['|', ('replace_partners_name', '=', True), ('qrcode_order_screen', '=', True)]}"
+                                    />
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </xpath>
+                <xpath expr="//div[@id='login_with_employees']" position="inside">
+                    <div attrs="{'invisible': [('module_pos_hr', '=', False)]}">
+                        <span class="o_form_label oe_edit_only">Active Multi Session</span>
+                        <field name="multi_session"/>
+                    </div>
+                    <div attrs="{'invisible': [('module_pos_hr', '=', False)]}">
+                        <span class="o_form_label oe_edit_only">Required Login with PIN</span>
+                        <field name="multi_session_login_pin"/>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="pos_config_view_form_inherit_restaurant" model="ir.ui.view">
+            <field name="name">pos.config.form.inherit.restaurant</field>
+            <field name="model">pos.config</field>
+            <field name="inherit_id" ref="pos_restaurant.pos_config_view_form_inherit_restaurant"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='floor_ids']" position="replace">
+                    <field name="restaurant_order" invisible="1"/>
+                                <field name="screen_type" invisible="1"/>
+                    <field name="floor_ids" widget="many2many_tags"
+                           attrs="{'readonly': [('has_active_session','=', True)], 'required': [('restaurant_order', '=', True)]}"
+                           />
+                </xpath>
+                <xpath expr="//field[@name='printer_ids']" position="replace">
+                    <field name="printer_ids"
+                           widget="many2many_tags"
+                           domain="['|', ('branch_id', '=', False), ('branch_id', '=', pos_branch_id)]"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

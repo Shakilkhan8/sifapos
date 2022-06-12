@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="PaymentMethodButton" t-inherit="point_of_sale.PaymentMethodButton" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[hasclass('payment-name')]" position="after">
+            <div class="payment-name" t-if="props.paymentMethod.journal and props.paymentMethod.journal.currency_id" style="text-align: right">
+                <t t-esc="props.paymentMethod.journal.currency_id[1]" />
+            </div>
+        </xpath>
+    </t>
+
+</templates>

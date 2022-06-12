@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="ProductsWidgetControlPanel" t-inherit="point_of_sale.ProductsWidgetControlPanel" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[hasclass('rightpane-header')]" position="after">
+            <span class="breadcrumb" t-if="env.pos.config.create_category_direct" style="float: right">
+                <span class="category-simple-button" t-on-click="trigger('addCategory')">
+                    <i class="fa fa-plus"/>
+                    Add Category
+                </span>
+            </span>
+            <span class="breadcrumb" t-if="env.pos.config.create_product_direct" style="float: right">
+                <span class="category-simple-button" t-on-click="trigger('addProduct')">
+                    <i class="fa fa-plus"/>
+                    Add Product
+                </span>
+            </span>
+        </xpath>
+    </t>
+
+</templates>

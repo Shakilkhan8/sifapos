@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="ClientListScreen" t-inherit="point_of_sale.ClientListScreen" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[hasclass('button')][3]" position="replace">
+            <div class="button save" t-if="state.detailIsShown" t-on-click="trigger('click-save')">
+                <t t-if="!env.isMobile">
+                    <i class="fa fa-floppy-o"/>
+                    <span> Save</span>
+                </t>
+                <t t-else="">
+                    <i class="fa fa-floppy-o"/>
+                </t>
+            </div>
+        </xpath>
+        <xpath expr="//table[hasclass('client-list')]/thead/tr/th[5]" position="after">
+            <th t-if="!env.isMobile">Loyalty Points</th>
+            <th t-if="!env.isMobile">Credit Balance</th>
+            <th t-if="!env.isMobile">Wallet Points</th>
+            <th t-if="!env.isMobile">Orders Count</th>
+            <th t-if="!env.isMobile">Total Bought Amount</th>
+        </xpath>
+    </t>
+
+</templates>

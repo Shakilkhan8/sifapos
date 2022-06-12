@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="CashBalanceLine" owl="1">
+        <div>
+            <label>Number Coin</label>
+            <input type="number" t-model="props.item.number"
+                   class="popup-input list-line-input col start"
+                   style="width: 35%"
+                   placeholder="Coin Number" t-on-keyup="onKeyup" />
+            <label>Coin Value</label>
+            <input type="text" t-model="props.item.coin_value"
+                   class="popup-input list-line-input col end"
+                   style="width: 35%"
+                   placeholder="Count Value" t-on-keyup="onKeyup" />
+            <i class="oe_link_icon fa fa-trash-o" role="img" aria-label="Remove" title="Remove"
+               t-on-click="trigger('remove-item', props.item)"></i>
+        </div>
+    </t>
+
+</templates>

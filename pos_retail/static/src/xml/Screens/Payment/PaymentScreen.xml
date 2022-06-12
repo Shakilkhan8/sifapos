@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="PaymentScreen" t-inherit="point_of_sale.PaymentScreen" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[hasclass('payment-buttons')]" position="inside">
+            <div class="customer-button">
+                <div class="button"
+                    t-att-class="{ highlight: true }"
+                    t-on-click="scanVoucher">
+                    <i class="fa fa-file-text-o" /> Add Voucher
+                </div>
+            </div>
+            <t t-if="env.pos.rewards">
+                <div class="customer-button">
+                    <div class="button"
+                        t-att-class="{ highlight: true }"
+                        t-on-click="selectLoyaltyReward">
+                        <i class="fa fa-file-text-o" /> Loyalty Reward
+                    </div>
+                </div>
+            </t>
+            <t t-if="env.pos.config.wallet">
+                <div class="customer-button">
+                    <div class="button"
+                        t-att-class="{ oe_hidden: currentOrder.get_change() &lt;= 0, highlight:  currentOrder.get_change() &gt; 0}"
+                        t-on-click="saveToWallet">
+                        <i class="fa fa-file-text-o" /> Save Change to Wallet
+                    </div>
+                </div>
+            </t>
+            <t t-if="env.pos.config.wallet">
+                <div class="customer-button">
+                    <div class="button"
+                        t-att-class="{ oe_hidden: !customerHasWallet, highlight: customerHasWallet}"
+                        t-on-click="useWalletPaid">
+                        <i class="fa fa-file-text-o" /> Use Wallet Paid
+                    </div>
+                </div>
+            </t>
+            <div class="customer-button">
+                <div class="button"
+                    t-att-class="{ oe_hidden: !customerHasCredit, highlight: customerHasCredit}"
+                    t-on-click="useCreditPaid">
+                    <i class="fa fa-file-text-o" /> Use Credit Paid
+                </div>
+            </div>
+        </xpath>
+        <xpath expr="//div[hasclass('paymentmethods')]" position="after">
+            <span class="label" t-if="env.pos.payment_journals">Invoice Journal will save</span>
+            <div class="paymentmethods" t-if="env.pos.payment_journals">
+                <t t-foreach="env.pos.payment_journals" t-as="payment_journal"
+                   t-key="payment_journal.id">
+                    <PaymentInvoiceJournal paymentInvoiceJournal="payment_journal" />
+                </t>
+            </div>
+        </xpath>
+        <xpath expr="//section[hasclass('payment-numpad')]" position="before">
+            <span class="label" t-if="env.pos.payment_coins">Coins</span>
+            <div class="paymentmethods payment-coins" t-if="env.pos.payment_coins">
+                <t t-foreach="env.pos.payment_coins" t-as="coin"
+                   t-key="coin.id">
+                    <PaymentCoin paymentCoin="coin" />
+                </t>
+            </div>
+        </xpath>
+        <xpath expr="//div[hasclass('paymentmethods')]" position="replace">
+            <div class="paymentmethods">
+                <t t-foreach="env.pos.payment_methods.filter((p) => (p.journal and p.journal.currency_id and currentOrder.currency and p.journal.currency_id[0] == currentOrder.currency.id) or (!p.journal))"
+                   t-as="paymentMethod"
+                   t-key="paymentMethod.id">
+                    <PaymentMethodButton paymentMethod="paymentMethod"/>
+                </t>
+            </div>
+        </xpath>
+    </t>
+
+</templates>

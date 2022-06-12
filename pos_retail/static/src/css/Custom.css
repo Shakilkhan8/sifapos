@@ -1,0 +1,585 @@
+.alert [data-notify="dismiss"] {
+    margin-right: 5px;
+    background: black;
+    color: #ffffff;
+}
+
+.alert span {
+    font-family: "Montserrat", "Odoo Unicode Support Noto", sans-serif;
+    max-width: 100%;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.screen .top-content .top-content-center h1 {
+    line-height: 0.5em;
+}
+
+.pos .control-buttons {
+    width: 300px;
+    height: 100%;
+    overflow: hidden;
+    display: inline-block;
+    overflow-y: auto;
+}
+
+.pos .image-uploader {
+    cursor: pointer;
+}
+
+.pos .card-issue {
+    color: #ff3d00;
+    line-height: 30px;
+    padding: 10px;
+}
+
+.pos .card-successfully {
+    color: #6EC89B;
+    line-height: 30px;
+    padding: 10px;
+}
+
+.pos .leftpane {
+    max-width: 600px;
+}
+
+.card {
+    font-family: "Montserrat", "Odoo Unicode Support Noto", sans-serif;
+}
+
+.pos .search-box-full {
+    width: 100%;
+}
+
+.pos .switchpane .btn-switchpane h1 {
+    line-height: 1.0em !important;
+}
+
+.button, input {
+    font-family: "Montserrat", "Odoo Unicode Support Noto", sans-serif !important;
+}
+
+.pos .login_div {
+    text-align: unset;
+    width: 100%;
+    margin-left: unset
+}
+
+.alert b {
+    font-weight: 900;
+    font-size: 18px;
+}
+
+.pos .modal-dialog .popup {
+    line-height: 30px;
+}
+.pos .modal-dialog .full-form {
+    min-width: 80% !important;
+}
+.pos .modal-dialog .medium-form {
+    min-width: 40% !important;
+}
+.pos .modal-dialog .popup .product .product-name {
+    background: unset;
+}
+
+.pos .client-details-contents {
+    border-bottom: 3px solid #6EC89B;
+}
+
+.pos .js_msg {
+    font-size: 14px !important;
+}
+
+.screen .left-content {
+    width: 35%;
+}
+
+.screen .right-content {
+    width: 64%;
+}
+
+.pos .popup-password .popup-input {
+    font-size: 100px;
+    padding-bottom: 20px;
+}
+
+.pos .loader-feedback .progressbar {
+    background: #ffffff;
+    height: 2px;
+}
+
+.pos .loader-feedback .progressbar > .progress {
+    background: #ff3d00;
+}
+
+.pos .pos-logo {
+    height: 48px;
+    margin-left: 0px;
+    margin-top: 0px;
+    vertical-align: middle;
+    width: 48px;
+    cursor: pointer;
+    border-radius: 65%;
+}
+
+.pos .successfully_order {
+    padding: 10px;
+    margin: 20px;
+    line-height: 39px;
+    font-size: 18px;
+    border-radius: 10px;
+    font-weight: 400;
+}
+
+.pos .client-detail .label {
+    font-weight: 900 !important;
+    color: black;
+    width: 30%;
+    text-align: left;
+}
+
+.ticket-screen .ordersLine {
+    max-height: 400px;
+    display: flex;
+    flex-flow: column nowrap;
+    overflow: hidden;
+    overflow-y: hidden;
+    overflow-y: auto;
+}
+
+.pos .detail {
+    width: 70%;
+    text-align: left;
+    display: inherit;
+}
+
+.ticket-screen .orders .col.start {
+    text-align: left;
+}
+
+.ticket-screen .orders .col.end {
+    text-align: right;
+}
+
+.pos .popup .title {
+    line-height: 30px;
+}
+
+.btn, .navbar .navbar-nav > li > a.btn {
+    margin: 1px 1px !important;
+}
+
+.pos .control-button {
+    width: 40%;
+    margin: 0.1em;
+    max-width: 40%;
+    text-align: center;
+    padding: 10px;
+    max-height: 95px;
+    min-height: 95px;
+    line-height: 24px;
+    color: black;
+    background: #fff;
+    border: unset;
+    border-radius: 10px;
+}
+
+.pos .control-button.highlight, .pos .button.highlight {
+    border: unset;
+}
+
+.pos .control-button span {
+    display: inline-block;
+    font-size: 16px;
+}
+
+.pos .switchpane {
+    height: 80px;
+}
+
+@media screen and (max-width: 576px) {
+    .pos .popups .popup-selection {
+        left: 0px !important;
+        width: 95%;
+    }
+
+    .pos .modal-dialog {
+        width: 95%;
+    }
+
+    .pos .payment-numpad .numpad button {
+        height: 70px !important;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .pos .popups .popup-selection {
+        left: 0px !important;
+        width: 95%;
+    }
+
+    .pos .payment-numpad .numpad button {
+        height: 70px !important;
+    }
+
+    .pos .modal-dialog .popup textarea {
+        width: 90%;
+        border: 1px solid gray;
+    }
+
+    .pos .modal-dialog .popup .product {
+        width: 10em !important;
+        margin: 0.5em !important;
+    }
+
+    .pos .modal-dialog {
+        width: 95%;
+    }
+
+    .pos .product {
+        width: 45% !important;
+        height: 18em;
+        margin: auto !important;
+        margin-bottom: 1em !important;
+    }
+
+    .pos .product .product-img-big img {
+        height: 50%;
+        width: 50%;
+    }
+
+    .pos .control-buttons {
+        max-height: 150px !important;
+        width: 100% !important;
+        min-height: 40px;
+        float: unset;
+        padding: unset;
+        border-bottom: 3px solid black;
+    }
+
+    .pos .control-button {
+        width: 18%;
+        min-width: unset;
+        height: 50px !important;
+        min-height: 60px !important;
+    }
+
+    .pos .client-details-left {
+        width: 100% !important;
+    }
+
+    .pos .client-details-right {
+        width: 100% !important;
+    }
+
+    .pos .header {
+        margin-top: 35px;
+    }
+
+    .pos .leftpane {
+        max-width: 100% !important;
+    }
+}
+
+.pos .sub_info {
+    margin-left: 25px;
+    font-size: 13px;
+}
+
+.pos .notification {
+    font-size: 13px;
+    background: #ff3d00;
+    color: white;
+    /*float: right;*/
+    min-width: 15px;
+    padding-left: 6px;
+    padding-right: 6px;
+    font-weight: 400;
+    text-align: center;
+    border-radius: 65%;
+    margin-left: 5px;
+    margin-top: 0px;
+    line-height: 20px;
+}
+
+.pos .controls button .notification {
+    margin-top: -10px !important;
+}
+
+.pos .status-buttons {
+    float: right;
+}
+
+.pos .loader-feedback {
+    top: 35% !important;
+}
+
+.pos .loader-feedback h1 {
+    display: none;
+}
+
+.pos .loader {
+    background-color: unset;
+}
+
+.pos .o_loader {
+    margin-bottom: 10px;
+}
+
+.pos .login-body {
+    height: unset;
+}
+
+/*product screen*/
+.pos .switchpane .btn-switchpane {
+    background: #ff3d00;
+}
+
+.pos .actionpad .button.set-customer {
+    font-size: 16px !important;
+    background: #6EC89B !important;
+}
+
+.pos .numpad {
+    margin: 0px;
+    width: 100%;
+}
+
+.pos .numpad button:nth-child(4) {
+    border-radius: 10px;
+}
+
+.pos .numpad button:last-child {
+    border-radius: 10px;
+}
+
+.pos .actionpad .button.pay {
+    font-size: 30px !important;
+    border-radius: 10px;
+    background: #ff3d00;
+    color: white;
+    height: 60%;
+}
+
+.pos .so_link {
+    color: blue;
+}
+
+.pos .form-footer {
+    min-height: 60px;
+    padding: 10px;
+}
+
+.pos .btn {
+    min-width: 100px;
+    font-size: 13px;
+    color: black;
+}
+
+.pos .ready_notification {
+    font-size: 13px;
+    background: #1508f2;
+    color: white;
+    float: right;
+    min-width: 15px;
+    padding-left: 6px;
+    padding-right: 6px;
+    font-weight: 400;
+    text-align: center;
+    border-radius: 65%;
+    margin-left: 5px;
+    margin-top: 0px;
+    line-height: 20px;
+}
+
+/*payment screen */
+.paymentline .payment-amount {
+    font-weight: 900;
+}
+
+.paymentmethods .button {
+    background: white;
+    padding: 15px;
+    min-height: 50px;
+    display: inline-block;
+}
+
+.pos .numpad button:last-child {
+    border-radius: 10px;
+}
+
+.pos .payment-numpad .numpad button:nth-child(16) {
+    border-radius: 10px;
+}
+
+.pos .payment-numpad .numpad {
+    border-top: unset;
+    width: 500px;
+}
+
+.pos .payment-numpad .numpad button:first-child {
+    border-radius: 10px;
+}
+
+.pos .payment-numpad .numpad button {
+    width: 22%;
+    height: 100px !important;
+}
+
+.pos .numpad button:nth-child(4) {
+    border-radius: 10px;
+}
+
+.search-bar-portal .search-box {
+    margin: unset;
+}
+
+@media screen and (max-width: 768px) {
+    .pos .payment-numpad .numpad {
+        width: 100%;
+    }
+
+    .pos .actionpad .button.set-customer {
+        height: 55px !important;
+    }
+
+    .pos .control-button .fa {
+        display: none;
+    }
+}
+
+.pos .control-button .fa {
+    font-size: 30px;
+}
+
+.pos .payment-status-total-due {
+    font-weight: 900;
+    color: black;
+}
+
+.pos .control-button.highlight, .pos .button.highlight {
+    border: 0px !important;
+}
+
+/*order cart*/
+.pos .badge {
+    color: #ff3d00;
+}
+
+.pos .value {
+    color: #ff3d00;
+}
+
+/*customer (client) screen*/
+.pos .client-picture {
+    border-radius: 32px;
+    overflow: hidden;
+    text-align: center;
+    float: left;
+    margin-right: 16px;
+    margin-left: 20px;
+    background: white;
+    position: relative;
+    height: 80px;
+    width: 80px !important;
+    height: 80px !important;
+}
+
+.pos .client-picture .fa {
+    line-height: 75px !important;
+    font-size: 40px !important;
+}
+
+.pos .header-table {
+    background: unset !important;
+}
+
+.pos .client-picture img {
+    max-width: 120px;
+    max-height: 120px;
+}
+
+.pos .actionpad .button.set-customer {
+    border-radius: 10px;
+    margin-bottom: 3px;
+    margin-top: 3px;
+    height: 40%;
+}
+
+@media print {
+    body * {
+        visibility: hidden;
+    }
+
+    .pos .receipt-screen .pos-receipt-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+    }
+
+    .pos .receipt-screen .pos-receipt-container * {
+        visibility: visible;
+        background: white !important;
+        color: black !important;
+    }
+
+    .pos .pos-receipt {
+        margin: 0;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        border: none !important;
+        font-size: 13px !important;
+        width: 266px !important;
+    }
+}
+
+/*order widget*/
+.pos .order_line_button {
+    color: black;
+    border: 1px solid #bfbfbf;
+    border-radius: 10px;
+    margin: 2px;
+    height: 50px;
+    background: #fff;
+    width: 50px;
+}
+
+.pos .numpad button {
+    color: black;
+    border-left: 1px solid #bfbfbf;
+    border-top: 1px solid #bfbfbf;
+    border-radius: 10px;
+    margin: 2px;
+    height: 70px;
+    background: #fff;
+    width: 23%;
+}
+
+/*popup*/
+.pos .modal-dialog .popup {
+    /*border-radius: $border-radius;*/
+    /*min-width: 40% !important;*/
+    /*background: $base_color;*/
+    /*font-family: $font_family_pos;*/
+}
+
+.pos .checkbox_field {
+    box-shadow: none !important;
+    width: 20px !important;
+    margin-top: -8px;
+    float: left;
+    margin-left: 7px;
+}
+
+.pos .client-details-left {
+    width: 40% !important;
+    float: left;
+    paddding: 20px;
+}
+
+.pos .client-details-right {
+    width: 40% !important;
+    float: right;
+    paddding: 20px;
+}

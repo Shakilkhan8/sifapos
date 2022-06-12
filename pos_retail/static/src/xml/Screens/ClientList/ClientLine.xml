@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="ClientLine" t-inherit="point_of_sale.ClientLine" t-inherit-mode="extension" owl="1">
+        <xpath expr="//tr" position="inside">
+            <td t-if="!env.isMobile">
+                <t t-esc="env.pos.format_currency_no_symbol(props.partner.pos_loyalty_point)" />
+            </td>
+            <td t-if="!env.isMobile">
+                <t t-esc="env.pos.format_currency(props.partner.balance)" />
+            </td>
+            <td t-if="!env.isMobile">
+                <t t-esc="env.pos.format_currency(props.partner.wallet)" />
+            </td>
+            <td t-if="!env.isMobile">
+                <t t-esc="env.pos.format_currency_no_symbol(props.partner.pos_order_count)" />
+            </td>
+            <td t-if="!env.isMobile">
+                <t t-esc="env.pos.format_currency(props.partner.pos_total_amount)" />
+            </td>
+        </xpath>
+        <xpath expr="//button[hasclass('edit-client-button')]" position="replace">
+            <button class="edit-client-button" t-on-click.stop="trigger('click-edit')" t-if="env.pos.config.update_client">EDIT</button>
+        </xpath>
+    </t>
+
+</templates>
